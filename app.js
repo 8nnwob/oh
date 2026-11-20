@@ -16,7 +16,7 @@ const WORDS = [
 const STORAGE_KEY = 'words-daily-v1';
 const $ = id => document.getElementById(id);
 const dateKey = (date = new Date()) => `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-const initialState = () => ({ known: {}, again: {}, completed: [], streak: 0, lastDay: '', sessionDate: '', sessionQueue: [], sessionPosition: 0, quizMode: 'englishToChinese' });
+const initialState = () => ({ known: {}, again: {}, completed: [], streak: 0, lastDay: '', sessionDate: '', sessionQueue: [], sessionPosition: 0, quizMode: 'englishToChinese', dailyNewCount: 5 });
 function load() {
   try { return { ...initialState(), ...JSON.parse(localStorage.getItem(STORAGE_KEY)) }; }
   catch { return initialState(); }
@@ -40,7 +40,7 @@ function startSession() {
     const again = Object.keys(state.again).filter(i => state.again[i] <= today).map(Number);
     const due = known.filter(i => state.known[i] <= today);
     const fresh = WORDS.map((_, i) => i).filter(i => !known.includes(i) && !again.includes(i));
-    queue = [...new Set([...again, ...due, ...fresh.slice(0, Math.max(0, 5 - again.length - due.length))])];
+    queue = [...new Set([...again, ...due, ...fresh.slice(0, Math.max(0, Number(state.dailyNewCount || 5) - again.length - due.length))])];
     position = 0;
     state.sessionDate = today;
     state.sessionQueue = queue;
@@ -91,6 +91,9 @@ function render() {
   $('session-label').textContent = 'TODAY\'S SESSION';
   $('session-title').textContent = '今天的單字';
   const word = WORDS[queue[position]];
+  const dailyLimit = $('daily-limit');
+  dailyLimit.value = String(state.dailyNewCount || 5);
+  dailyLimit.onchange = () => { state.dailyNewCount = Number(dailyLimit.value); save(); };
   const modeSelect = $('quiz-mode');
   modeSelect.value = state.quizMode;
   modeSelect.onchange = () => { state.quizMode = modeSelect.value; save(); revealed = false; render(); };
