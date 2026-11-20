@@ -1,31 +1,138 @@
 const WORDS = [
-  {word:'deliberate',ipa:'/dɪˈlɪbərət/',type:'ADJECTIVE',meaning:'深思熟慮的；故意的',example:'She made a <strong>deliberate</strong> choice to slow down.',translation:'她慎重地做了放慢腳步的選擇。',synonyms:'intentional, considered',usage:'deliberate decision / action；也可作動詞，表示「仔細考慮」。'},
-  {word:'resilient',ipa:'/rɪˈzɪliənt/',type:'ADJECTIVE',meaning:'有韌性的；能迅速復原的',example:'Children are often surprisingly <strong>resilient</strong>.',translation:'孩子往往有著驚人的復原力。',synonyms:'tough, adaptable',usage:'resilient to change；形容人或系統從困難中恢復的能力。'},
-  {word:'subtle',ipa:'/ˈsʌtəl/',type:'ADJECTIVE',meaning:'微妙的；不易察覺的',example:'There is a <strong>subtle</strong> difference in the two shades.',translation:'這兩種色調之間有細微的差別。',synonyms:'delicate, understated',usage:'a subtle change / hint / flavor；通常指細緻而不明顯。'},
-  {word:'sustain',ipa:'/səˈsteɪn/',type:'VERB',meaning:'維持；支撐；承受',example:'Small habits help <strong>sustain</strong> long-term progress.',translation:'小習慣有助於維持長期進步。',synonyms:'maintain, support',usage:'sustain growth / attention / an injury；依語境可指維持或承受。'},
-  {word:'concise',ipa:'/kənˈsaɪs/',type:'ADJECTIVE',meaning:'簡潔的；言簡意賅的',example:'Please keep your summary clear and <strong>concise</strong>.',translation:'請讓摘要保持清楚簡潔。',synonyms:'brief, succinct',usage:'a concise explanation / summary；強調用較少文字說清楚。'},
-  {word:'inevitable',ipa:'/ɪnˈevɪtəbəl/',type:'ADJECTIVE',meaning:'不可避免的；必然發生的',example:'Some mistakes are <strong>inevitable</strong> when learning.',translation:'學習時有些錯誤在所難免。',synonyms:'unavoidable, certain',usage:'It is inevitable that...；常描述無法避免的結果。'},
-  {word:'coherent',ipa:'/koʊˈhɪrənt/',type:'ADJECTIVE',meaning:'連貫的；有條理的',example:'The report presents a <strong>coherent</strong> argument.',translation:'這份報告提出了有條理的論點。',synonyms:'logical, consistent',usage:'a coherent argument / explanation；指各部分彼此連接、整體合理。'},
-  {word:'nuance',ipa:'/ˈnuːɑːns/',type:'NOUN',meaning:'細微差異；微妙之處',example:'The translation captures the <strong>nuance</strong> of the original.',translation:'這個譯文捕捉到了原文的微妙之處。',synonyms:'subtlety, distinction',usage:'a nuance of meaning；常指不容易用單一字詞表達的細節。'},
-  {word:'foster',ipa:'/ˈfɑːstər/',type:'VERB',meaning:'培養；促進；鼓勵',example:'Reading together can <strong>foster</strong> curiosity.',translation:'一起閱讀能培養好奇心。',synonyms:'nurture, encourage',usage:'foster trust / creativity / growth；帶有逐步培育、促進之意。'},
-  {word:'pragmatic',ipa:'/præɡˈmætɪk/',type:'ADJECTIVE',meaning:'務實的；講求實際的',example:'We need a <strong>pragmatic</strong> solution that works today.',translation:'我們需要一個今天就行得通的務實方案。',synonyms:'practical, realistic',usage:'a pragmatic approach / solution；著眼於可行結果，而非理論。'},
-  {word:'ambiguous',ipa:'/æmˈbɪɡjuəs/',type:'ADJECTIVE',meaning:'模稜兩可的；含糊不清的',example:'The instructions were too <strong>ambiguous</strong> to follow.',translation:'這些指示太含糊，讓人無所適從。',synonyms:'unclear, vague',usage:'an ambiguous statement；可能有不只一種解讀。'},
-  {word:'convey',ipa:'/kənˈveɪ/',type:'VERB',meaning:'傳達；表達；運送',example:'A simple gesture can <strong>convey</strong> a lot.',translation:'一個簡單的手勢就能傳達很多意思。',synonyms:'communicate, express',usage:'convey a message / feeling / idea；著重把訊息從一方傳到另一方。'}
+  { word: 'deliberate', ipa: '/dɪˈlɪbərət/', type: 'ADJECTIVE', meaning: '深思熟慮的；故意的', example: 'She made a <strong>deliberate</strong> choice to slow down.', translation: '她慎重地做了放慢腳步的選擇。', synonyms: 'intentional, considered', usage: 'deliberate decision / action；也可作動詞，表示「仔細考慮」。' },
+  { word: 'resilient', ipa: '/rɪˈzɪliənt/', type: 'ADJECTIVE', meaning: '有韌性的；能迅速復原的', example: 'Children are often surprisingly <strong>resilient</strong>.', translation: '孩子往往有著驚人的復原力。', synonyms: 'tough, adaptable', usage: 'resilient to change；形容人或系統從困難中恢復的能力。' },
+  { word: 'subtle', ipa: '/ˈsʌtəl/', type: 'ADJECTIVE', meaning: '微妙的；不易察覺的', example: 'There is a <strong>subtle</strong> difference in the two shades.', translation: '這兩種色調之間有細微的差別。', synonyms: 'delicate, understated', usage: 'a subtle change / hint / flavor；通常指細緻而不明顯。' },
+  { word: 'sustain', ipa: '/səˈsteɪn/', type: 'VERB', meaning: '維持；支撐；承受', example: 'Small habits help <strong>sustain</strong> long-term progress.', translation: '小習慣有助於維持長期進步。', synonyms: 'maintain, support', usage: 'sustain growth / attention / an injury；依語境可指維持或承受。' },
+  { word: 'concise', ipa: '/kənˈsaɪs/', type: 'ADJECTIVE', meaning: '簡潔的；言簡意賅的', example: 'Please keep your summary clear and <strong>concise</strong>.', translation: '請讓摘要保持清楚簡潔。', synonyms: 'brief, succinct', usage: 'a concise explanation / summary；強調用較少文字說清楚。' },
+  { word: 'inevitable', ipa: '/ɪnˈevɪtəbəl/', type: 'ADJECTIVE', meaning: '不可避免的；必然發生的', example: 'Some mistakes are <strong>inevitable</strong> when learning.', translation: '學習時有些錯誤在所難免。', synonyms: 'unavoidable, certain', usage: 'It is inevitable that...；常描述無法避免的結果。' },
+  { word: 'coherent', ipa: '/koʊˈhɪrənt/', type: 'ADJECTIVE', meaning: '連貫的；有條理的', example: 'The report presents a <strong>coherent</strong> argument.', translation: '這份報告提出了有條理的論點。', synonyms: 'logical, consistent', usage: 'a coherent argument / explanation；指各部分彼此連接、整體合理。' },
+  { word: 'nuance', ipa: '/ˈnuːɑːns/', type: 'NOUN', meaning: '細微差異；微妙之處', example: 'The translation captures the <strong>nuance</strong> of the original.', translation: '這個譯文捕捉到了原文的微妙之處。', synonyms: 'subtlety, distinction', usage: 'a nuance of meaning；常指不容易用單一字詞表達的細節。' },
+  { word: 'foster', ipa: '/ˈfɑːstər/', type: 'VERB', meaning: '培養；促進；鼓勵', example: 'Reading together can <strong>foster</strong> curiosity.', translation: '一起閱讀能培養好奇心。', synonyms: 'nurture, encourage', usage: 'foster trust / creativity / growth；帶有逐步培育、促進之意。' },
+  { word: 'pragmatic', ipa: '/præɡˈmætɪk/', type: 'ADJECTIVE', meaning: '務實的；講求實際的', example: 'We need a <strong>pragmatic</strong> solution that works today.', translation: '我們需要一個今天就行得通的務實方案。', synonyms: 'practical, realistic', usage: 'a pragmatic approach / solution；著眼於可行結果，而非理論。' },
+  { word: 'ambiguous', ipa: '/æmˈbɪɡjuəs/', type: 'ADJECTIVE', meaning: '模稜兩可的；含糊不清的', example: 'The instructions were too <strong>ambiguous</strong> to follow.', translation: '這些指示太含糊，讓人無所適從。', synonyms: 'unclear, vague', usage: 'an ambiguous statement；可能有不只一種解讀。' },
+  { word: 'convey', ipa: '/kənˈveɪ/', type: 'VERB', meaning: '傳達；表達；運送', example: 'A simple gesture can <strong>convey</strong> a lot.', translation: '一個簡單的手勢就能傳達很多意思。', synonyms: 'communicate, express', usage: 'convey a message / feeling / idea；著重把訊息從一方傳到另一方。' }
 ];
-const STORAGE_KEY='words-daily-v1';
-const $=id=>document.getElementById(id);
-const dateKey=(date=new Date())=>`${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;
-function load(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY))||{known:{},again:{},completed:[],streak:0,lastDay:''}}catch{return{known:{},again:{},completed:[],streak:0,lastDay:''}}}
-let state=load(), queue=[], position=0, revealed=false;
-function save(){localStorage.setItem(STORAGE_KEY,JSON.stringify(state))}
-function startSession(){const today=dateKey();if(state.completed.includes(today)){queue=[];position=0;render();return}if(state.sessionDate===today&&Array.isArray(state.sessionQueue)){queue=state.sessionQueue;position=state.sessionPosition||0}else{const known=Object.keys(state.known).map(Number), again=Object.keys(state.again).filter(i=>state.again[i]<=today).map(Number), due=known.filter(i=>state.known[i]<=today), fresh=WORDS.map((_,i)=>i).filter(i=>!known.includes(i)&&!again.includes(i));queue=[...new Set([...again,...due,...fresh.slice(0,Math.max(0,5-again.length-due.length))])];position=0;state.sessionDate=today;state.sessionQueue=queue;state.sessionPosition=0;save()}revealed=false;render()}
-function updateStats(){const known=Object.keys(state.known).length;$('learned-count').textContent=known;$('due-count').textContent=Object.values(state.known).filter(d=>d<=dateKey()).length+Object.values(state.again).filter(d=>d<=dateKey()).length;$('streak-count').textContent=state.streak||0;$('today').textContent=new Date().toLocaleDateString('zh-TW',{year:'numeric',month:'long',day:'numeric',weekday:'short'})}
-function completeSession(){const today=dateKey();if(!queue.length||state.completed.includes(today))return;state.completed.push(today);const yesterday=new Date();yesterday.setDate(yesterday.getDate()-1);state.streak=state.lastDay===dateKey(yesterday)?(state.streak||0)+1:1;state.lastDay=today;save()}
-function render(){updateStats();const card=$('word-card'),actions=$('actions'),total=queue.length;$('progress-label').textContent=total?`${String(Math.min(position+1,total)).padStart(2,'0')} / ${String(total).padStart(2,'0')}`:'DONE';$('progress-bar').style.width=`${total?Math.min(position/total*100,100):100}%`;
- if(position>=total){completeSession();updateStats();$('session-label').textContent='SESSION COMPLETE';$('session-title').textContent='今天的練習';card.innerHTML=`<div class="empty-state"><div class="check">${total?'✓':'✳'}</div><h3>${total?'今天完成得很好。':'今天沒有待辦單字。'}</h3><p>${total?'已更新你的學習進度，明天再繼續累積。':'明天再來看看有沒有新字與複習內容。'}</p></div>`;actions.innerHTML='';return}
- $('session-label').textContent='TODAY\'S SESSION';$('session-title').textContent='今天的單字';const w=WORDS[queue[position]];card.innerHTML=`<div class="word-top"><div><div class="word">${w.word}</div><div class="ipa">${w.ipa}</div></div><span class="word-type">${w.type}</span></div>${revealed?`<div class="meaning">${w.meaning}</div><div class="example">${w.example}<div class="example-zh">${w.translation}</div></div><div class="details"><div class="detail"><b>SIMILAR WORDS</b>${w.synonyms}</div><div class="detail"><b>USAGE NOTE</b>${w.usage}</div></div>`:`<div class="reveal-hint">先試著回想意思，再翻開單字卡 ✦</div>`}<span class="word-index">WORD ${String(queue[position]+1).padStart(2,'0')}</span>`;
- actions.innerHTML=revealed?'<button class="button secondary" data-result="again">再練一次 · 明天</button><button class="button" data-result="known">熟悉 · 安排複習</button>':'<button class="button" id="reveal">翻開答案</button>';
- const reveal=$('reveal');if(reveal)reveal.onclick=()=>{revealed=true;render()};actions.querySelectorAll('[data-result]').forEach(btn=>btn.onclick=()=>mark(btn.dataset.result,queue[position]));}
-function mark(result,index){const tomorrow=new Date();tomorrow.setDate(tomorrow.getDate()+1);const inTwo=new Date();inTwo.setDate(inTwo.getDate()+2);if(result==='known'){delete state.again[index];state.known[index]=dateKey(inTwo)}else{delete state.known[index];state.again[index]=dateKey(tomorrow)}position++;state.sessionPosition=position;save();revealed=false;render()}
-$('reset-button').onclick=()=>{if(confirm('確定清除這台裝置上的學習進度？')){localStorage.removeItem(STORAGE_KEY);state=load();startSession()}};
+
+const STORAGE_KEY = 'words-daily-v1';
+const $ = id => document.getElementById(id);
+const dateKey = (date = new Date()) => `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+const initialState = () => ({ known: {}, again: {}, completed: [], streak: 0, lastDay: '', sessionDate: '', sessionQueue: [], sessionPosition: 0, quizMode: 'englishToChinese' });
+function load() {
+  try { return { ...initialState(), ...JSON.parse(localStorage.getItem(STORAGE_KEY)) }; }
+  catch { return initialState(); }
+}
+let state = load();
+let queue = [];
+let position = 0;
+let revealed = false;
+function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+
+function startSession() {
+  const today = dateKey();
+  if (state.completed.includes(today)) {
+    queue = [];
+    position = 0;
+  } else if (state.sessionDate === today && Array.isArray(state.sessionQueue)) {
+    queue = state.sessionQueue;
+    position = state.sessionPosition || 0;
+  } else {
+    const known = Object.keys(state.known).map(Number);
+    const again = Object.keys(state.again).filter(i => state.again[i] <= today).map(Number);
+    const due = known.filter(i => state.known[i] <= today);
+    const fresh = WORDS.map((_, i) => i).filter(i => !known.includes(i) && !again.includes(i));
+    queue = [...new Set([...again, ...due, ...fresh.slice(0, Math.max(0, 5 - again.length - due.length))])];
+    position = 0;
+    state.sessionDate = today;
+    state.sessionQueue = queue;
+    state.sessionPosition = 0;
+    save();
+  }
+  revealed = false;
+  render();
+}
+
+function updateStats() {
+  const today = dateKey();
+  $('learned-count').textContent = Object.keys(state.known).length;
+  $('due-count').textContent = Object.values(state.known).filter(date => date <= today).length + Object.values(state.again).filter(date => date <= today).length;
+  $('streak-count').textContent = state.streak || 0;
+  $('today').textContent = new Date().toLocaleDateString('zh-TW', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' });
+}
+
+function completeSession() {
+  const today = dateKey();
+  if (!queue.length || state.completed.includes(today)) return;
+  state.completed.push(today);
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  state.streak = state.lastDay === dateKey(yesterday) ? (state.streak || 0) + 1 : 1;
+  state.lastDay = today;
+  save();
+}
+
+function render() {
+  updateStats();
+  const card = $('word-card');
+  const actions = $('actions');
+  const total = queue.length;
+  $('progress-label').textContent = total ? `${String(Math.min(position + 1, total)).padStart(2, '0')} / ${String(total).padStart(2, '0')}` : 'DONE';
+  $('progress-bar').style.width = `${total ? Math.min(position / total * 100, 100) : 100}%`;
+
+  if (position >= total) {
+    completeSession();
+    updateStats();
+    $('session-label').textContent = 'SESSION COMPLETE';
+    $('session-title').textContent = '今天的練習';
+    card.innerHTML = `<div class="empty-state"><div class="check">${total ? '✓' : '✳'}</div><h3>${total ? '今天完成得很好。' : '今天沒有待辦單字。'}</h3><p>${total ? '已更新你的學習進度，明天再繼續累積。' : '明天再來看看有沒有新字與複習內容。'}</p></div>`;
+    actions.innerHTML = '';
+    return;
+  }
+
+  $('session-label').textContent = 'TODAY\'S SESSION';
+  $('session-title').textContent = '今天的單字';
+  const word = WORDS[queue[position]];
+  const modeSelect = $('quiz-mode');
+  modeSelect.value = state.quizMode;
+  modeSelect.onchange = () => { state.quizMode = modeSelect.value; save(); revealed = false; render(); };
+  const prompt = state.quizMode === 'chineseToEnglish'
+    ? `<div class="meaning prompt-meaning">${word.meaning}</div><span class="word-type">${word.type}</span>`
+    : `<div class="word">${word.word}</div><div class="ipa">${word.ipa}</div>`;
+  card.innerHTML = revealed
+    ? `<div class="word-top"><div><div class="word">${word.word}</div><div class="ipa">${word.ipa}</div></div><span class="word-type">${word.type}</span></div><div class="meaning">${word.meaning}</div><div class="example">${word.example}<div class="example-zh">${word.translation}</div></div><div class="details"><div class="detail"><b>SIMILAR WORDS</b>${word.synonyms}</div><div class="detail"><b>USAGE NOTE</b>${word.usage}</div></div><span class="word-index">WORD ${String(queue[position] + 1).padStart(2, '0')}</span>`
+    : `<div class="prompt-area">${prompt}<div class="reveal-hint">先試著回想${state.quizMode === 'chineseToEnglish' ? '英文單字' : '中文意思'}，再翻開單字卡 ✦</div></div><span class="word-index">WORD ${String(queue[position] + 1).padStart(2, '0')}</span>`;
+  actions.innerHTML = revealed
+    ? '<button class="button secondary" data-result="again">再練一次 · 明天</button><button class="button" data-result="known">熟悉 · 安排複習</button>'
+    : '<button class="button" id="reveal">翻開答案</button>';
+  const revealButton = $('reveal');
+  if (revealButton) revealButton.onclick = () => { revealed = true; render(); };
+  actions.querySelectorAll('[data-result]').forEach(button => button.onclick = () => mark(button.dataset.result, queue[position]));
+}
+
+function mark(result, index) {
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const inTwoDays = new Date();
+  inTwoDays.setDate(inTwoDays.getDate() + 2);
+  if (result === 'known') {
+    delete state.again[index];
+    state.known[index] = dateKey(inTwoDays);
+  } else {
+    delete state.known[index];
+    state.again[index] = dateKey(tomorrow);
+  }
+  position++;
+  state.sessionPosition = position;
+  save();
+  revealed = false;
+  render();
+}
+
+$('quiz-mode').value = state.quizMode;
+$('reset-button').onclick = () => {
+  if (confirm('確定清除這台裝置上的學習進度？')) {
+    localStorage.removeItem(STORAGE_KEY);
+    state = load();
+    startSession();
+  }
+};
 startSession();
