@@ -1,22 +1,22 @@
 const WORDS = [
-  { word: 'deliberate', ipa: '/dɪˈlɪbərət/', type: 'ADJECTIVE', meaning: '深思熟慮的；故意的', example: 'She made a <strong>deliberate</strong> choice to slow down.', translation: '她慎重地做了放慢腳步的選擇。', synonyms: 'intentional, considered', usage: 'deliberate decision / action；也可作動詞，表示「仔細考慮」。' },
-  { word: 'resilient', ipa: '/rɪˈzɪliənt/', type: 'ADJECTIVE', meaning: '有韌性的；能迅速復原的', example: 'Children are often surprisingly <strong>resilient</strong>.', translation: '孩子往往有著驚人的復原力。', synonyms: 'tough, adaptable', usage: 'resilient to change；形容人或系統從困難中恢復的能力。' },
-  { word: 'subtle', ipa: '/ˈsʌtəl/', type: 'ADJECTIVE', meaning: '微妙的；不易察覺的', example: 'There is a <strong>subtle</strong> difference in the two shades.', translation: '這兩種色調之間有細微的差別。', synonyms: 'delicate, understated', usage: 'a subtle change / hint / flavor；通常指細緻而不明顯。' },
-  { word: 'sustain', ipa: '/səˈsteɪn/', type: 'VERB', meaning: '維持；支撐；承受', example: 'Small habits help <strong>sustain</strong> long-term progress.', translation: '小習慣有助於維持長期進步。', synonyms: 'maintain, support', usage: 'sustain growth / attention / an injury；依語境可指維持或承受。' },
-  { word: 'concise', ipa: '/kənˈsaɪs/', type: 'ADJECTIVE', meaning: '簡潔的；言簡意賅的', example: 'Please keep your summary clear and <strong>concise</strong>.', translation: '請讓摘要保持清楚簡潔。', synonyms: 'brief, succinct', usage: 'a concise explanation / summary；強調用較少文字說清楚。' },
-  { word: 'inevitable', ipa: '/ɪnˈevɪtəbəl/', type: 'ADJECTIVE', meaning: '不可避免的；必然發生的', example: 'Some mistakes are <strong>inevitable</strong> when learning.', translation: '學習時有些錯誤在所難免。', synonyms: 'unavoidable, certain', usage: 'It is inevitable that...；常描述無法避免的結果。' },
-  { word: 'coherent', ipa: '/koʊˈhɪrənt/', type: 'ADJECTIVE', meaning: '連貫的；有條理的', example: 'The report presents a <strong>coherent</strong> argument.', translation: '這份報告提出了有條理的論點。', synonyms: 'logical, consistent', usage: 'a coherent argument / explanation；指各部分彼此連接、整體合理。' },
-  { word: 'nuance', ipa: '/ˈnuːɑːns/', type: 'NOUN', meaning: '細微差異；微妙之處', example: 'The translation captures the <strong>nuance</strong> of the original.', translation: '這個譯文捕捉到了原文的微妙之處。', synonyms: 'subtlety, distinction', usage: 'a nuance of meaning；常指不容易用單一字詞表達的細節。' },
-  { word: 'foster', ipa: '/ˈfɑːstər/', type: 'VERB', meaning: '培養；促進；鼓勵', example: 'Reading together can <strong>foster</strong> curiosity.', translation: '一起閱讀能培養好奇心。', synonyms: 'nurture, encourage', usage: 'foster trust / creativity / growth；帶有逐步培育、促進之意。' },
-  { word: 'pragmatic', ipa: '/præɡˈmætɪk/', type: 'ADJECTIVE', meaning: '務實的；講求實際的', example: 'We need a <strong>pragmatic</strong> solution that works today.', translation: '我們需要一個今天就行得通的務實方案。', synonyms: 'practical, realistic', usage: 'a pragmatic approach / solution；著眼於可行結果，而非理論。' },
-  { word: 'ambiguous', ipa: '/æmˈbɪɡjuəs/', type: 'ADJECTIVE', meaning: '模稜兩可的；含糊不清的', example: 'The instructions were too <strong>ambiguous</strong> to follow.', translation: '這些指示太含糊，讓人無所適從。', synonyms: 'unclear, vague', usage: 'an ambiguous statement；可能有不只一種解讀。' },
-  { word: 'convey', ipa: '/kənˈveɪ/', type: 'VERB', meaning: '傳達；表達；運送', example: 'A simple gesture can <strong>convey</strong> a lot.', translation: '一個簡單的手勢就能傳達很多意思。', synonyms: 'communicate, express', usage: 'convey a message / feeling / idea；著重把訊息從一方傳到另一方。' }
+  { word: 'deliberate', ipa: '/dɪˈlɪbərət/', type: 'ADJECTIVE', topic: 'thinking', meaning: '深思熟慮的；故意的', example: 'She made a <strong>deliberate</strong> choice to slow down.', translation: '她慎重地做了放慢腳步的選擇。', synonyms: 'intentional, considered', usage: 'deliberate decision / action；也可作動詞，表示「仔細考慮」。' },
+  { word: 'resilient', ipa: '/rɪˈzɪliənt/', type: 'ADJECTIVE', topic: 'growth', meaning: '有韌性的；能迅速復原的', example: 'Children are often surprisingly <strong>resilient</strong>.', translation: '孩子往往有著驚人的復原力。', synonyms: 'tough, adaptable', usage: 'resilient to change；形容人或系統從困難中恢復的能力。' },
+  { word: 'subtle', ipa: '/ˈsʌtəl/', type: 'ADJECTIVE', topic: 'thinking', meaning: '微妙的；不易察覺的', example: 'There is a <strong>subtle</strong> difference in the two shades.', translation: '這兩種色調之間有細微的差別。', synonyms: 'delicate, understated', usage: 'a subtle change / hint / flavor；通常指細緻而不明顯。' },
+  { word: 'sustain', ipa: '/səˈsteɪn/', type: 'VERB', topic: 'growth', meaning: '維持；支撐；承受', example: 'Small habits help <strong>sustain</strong> long-term progress.', translation: '小習慣有助於維持長期進步。', synonyms: 'maintain, support', usage: 'sustain growth / attention / an injury；依語境可指維持或承受。' },
+  { word: 'concise', ipa: '/kənˈsaɪs/', type: 'ADJECTIVE', topic: 'communication', meaning: '簡潔的；言簡意賅的', example: 'Please keep your summary clear and <strong>concise</strong>.', translation: '請讓摘要保持清楚簡潔。', synonyms: 'brief, succinct', usage: 'a concise explanation / summary；強調用較少文字說清楚。' },
+  { word: 'inevitable', ipa: '/ɪnˈevɪtəbəl/', type: 'ADJECTIVE', topic: 'thinking', meaning: '不可避免的；必然發生的', example: 'Some mistakes are <strong>inevitable</strong> when learning.', translation: '學習時有些錯誤在所難免。', synonyms: 'unavoidable, certain', usage: 'It is inevitable that...；常描述無法避免的結果。' },
+  { word: 'coherent', ipa: '/koʊˈhɪrənt/', type: 'ADJECTIVE', topic: 'communication', meaning: '連貫的；有條理的', example: 'The report presents a <strong>coherent</strong> argument.', translation: '這份報告提出了有條理的論點。', synonyms: 'logical, consistent', usage: 'a coherent argument / explanation；指各部分彼此連接、整體合理。' },
+  { word: 'nuance', ipa: '/ˈnuːɑːns/', type: 'NOUN', topic: 'communication', meaning: '細微差異；微妙之處', example: 'The translation captures the <strong>nuance</strong> of the original.', translation: '這個譯文捕捉到了原文的微妙之處。', synonyms: 'subtlety, distinction', usage: 'a nuance of meaning；常指不容易用單一字詞表達的細節。' },
+  { word: 'foster', ipa: '/ˈfɑːstər/', type: 'VERB', topic: 'growth', meaning: '培養；促進；鼓勵', example: 'Reading together can <strong>foster</strong> curiosity.', translation: '一起閱讀能培養好奇心。', synonyms: 'nurture, encourage', usage: 'foster trust / creativity / growth；帶有逐步培育、促進之意。' },
+  { word: 'pragmatic', ipa: '/præɡˈmætɪk/', type: 'ADJECTIVE', topic: 'thinking', meaning: '務實的；講求實際的', example: 'We need a <strong>pragmatic</strong> solution that works today.', translation: '我們需要一個今天就行得通的務實方案。', synonyms: 'practical, realistic', usage: 'a pragmatic approach / solution；著眼於可行結果，而非理論。' },
+  { word: 'ambiguous', ipa: '/æmˈbɪɡjuəs/', type: 'ADJECTIVE', topic: 'communication', meaning: '模稜兩可的；含糊不清的', example: 'The instructions were too <strong>ambiguous</strong> to follow.', translation: '這些指示太含糊，讓人無所適從。', synonyms: 'unclear, vague', usage: 'an ambiguous statement；可能有不只一種解讀。' },
+  { word: 'convey', ipa: '/kənˈveɪ/', type: 'VERB', topic: 'communication', meaning: '傳達；表達；運送', example: 'A simple gesture can <strong>convey</strong> a lot.', translation: '一個簡單的手勢就能傳達很多意思。', synonyms: 'communicate, express', usage: 'convey a message / feeling / idea；著重把訊息從一方傳到另一方。' }
 ];
 
 const STORAGE_KEY = 'words-daily-v1';
 const $ = id => document.getElementById(id);
 const dateKey = (date = new Date()) => `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-const initialState = () => ({ known: {}, again: {}, completed: [], streak: 0, lastDay: '', sessionDate: '', sessionQueue: [], sessionPosition: 0, quizMode: 'englishToChinese', dailyNewCount: 5 });
+const initialState = () => ({ known: {}, again: {}, completed: [], streak: 0, lastDay: '', sessionDate: '', sessionQueue: [], sessionPosition: 0, quizMode: 'englishToChinese', dailyNewCount: 5, topic: 'all' });
 function load() {
   try { return { ...initialState(), ...JSON.parse(localStorage.getItem(STORAGE_KEY)) }; }
   catch { return initialState(); }
@@ -39,7 +39,7 @@ function startSession() {
     const known = Object.keys(state.known).map(Number);
     const again = Object.keys(state.again).filter(i => state.again[i] <= today).map(Number);
     const due = known.filter(i => state.known[i] <= today);
-    const fresh = WORDS.map((_, i) => i).filter(i => !known.includes(i) && !again.includes(i));
+    const fresh = WORDS.map((word, i) => ({ word, i })).filter(entry => !known.includes(entry.i) && !again.includes(entry.i) && (state.topic === 'all' || entry.word.topic === state.topic)).map(entry => entry.i);
     queue = [...new Set([...again, ...due, ...fresh.slice(0, Math.max(0, Number(state.dailyNewCount || 5) - again.length - due.length))])];
     position = 0;
     state.sessionDate = today;
@@ -91,6 +91,9 @@ function render() {
   $('session-label').textContent = 'TODAY\'S SESSION';
   $('session-title').textContent = '今天的單字';
   const word = WORDS[queue[position]];
+  const topicFilter = $('topic-filter');
+  topicFilter.value = state.topic;
+  topicFilter.onchange = () => { state.topic = topicFilter.value; save(); };
   const dailyLimit = $('daily-limit');
   dailyLimit.value = String(state.dailyNewCount || 5);
   dailyLimit.onchange = () => { state.dailyNewCount = Number(dailyLimit.value); save(); };
