@@ -134,6 +134,48 @@ function mark(result, index) {
 }
 
 $('quiz-mode').value = state.quizMode;
+$('export-button').onclick = () => {
+  const backup = { format: 'words-daily-progress', version: 1, exportedAt: new Date().toISOString(), state };
+  const blobUrl = URL.createObjectURL(new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' }));
+  const link = document.createElement('a');
+  link.href = blobUrl;
+  link.download = `words-daily-progress-${dateKey()}.json`;
+  link.click();
+  URL.revokeObjectURL(blobUrl);
+};
+$('import-file').onchange = async event => {
+  const file = event.target.files[0];
+  if (!file) return;
+  try {
+    const backup = JSON.parse(await file.text());
+    if (backup.format !== 'words-daily-progress' || backup.version !== 1 || !backup.state || typeof backup.state !== 'object') throw new Error('格式不支援');
+    if (!confirm('匯入會取代這台裝置目前的學習進度。確定繼續嗎？')) return;
+    const source = backup.state;
+    const validDate = value => typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value);
+    const cleanDates = value => Object.fromEntries(Object.entries(value && typeof value === 'object' && !Array.isArray(value) ? value : {}).filter(([index, date]) => Number.isInteger(Number(index)) && Number(index) >= 0 && Number(index) < WORDS.length && validDate(date)));
+    const cleanQueue = Array.isArray(source.sessionQueue) ? [...new Set(source.sessionQueue.filter(index => Number.isInteger(index) && index >= 0 && index < WORDS.length))] : [];
+    state = {
+      ...initialState(),
+      known: cleanDates(source.known),
+      again: cleanDates(source.again),
+      completed: Array.isArray(source.completed) ? [...new Set(source.completed.filter(validDate))] : [],
+      streak: Number.isInteger(source.streak) && source.streak >= 0 ? source.streak : 0,
+      lastDay: validDate(source.lastDay) ? source.lastDay : '',
+      sessionDate: validDate(source.sessionDate) ? source.sessionDate : '',
+      sessionQueue: cleanQueue,
+      sessionPosition: Number.isInteger(source.sessionPosition) ? Math.max(0, Math.min(source.sessionPosition, cleanQueue.length)) : 0,
+      quizMode: ['englishToChinese', 'chineseToEnglish'].includes(source.quizMode) ? source.quizMode : 'englishToChinese',
+      dailyNewCount: [3, 5, 8].includes(source.dailyNewCount) ? source.dailyNewCount : 5,
+      topic: ['all', 'communication', 'thinking', 'growth'].includes(source.topic) ? source.topic : 'all'
+    };
+    save();
+    startSession();
+  } catch {
+    alert('無法匯入這份進度檔。請選擇由字日匯出的 JSON 備份。');
+  } finally {
+    event.target.value = '';
+  }
+};
 $('reset-button').onclick = () => {
   if (confirm('確定清除這台裝置上的學習進度？')) {
     localStorage.removeItem(STORAGE_KEY);
