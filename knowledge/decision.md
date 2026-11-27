@@ -2,11 +2,11 @@
 
 需要使用者偏好或 GitHub 帳號狀態才能定案的事項先記在這裡；不影響的本機工作繼續進行。
 
-## GitHub 發布
+## GitHub 發布（已完成）
 
-- **事項：** 將後續本機更新發布到目前的 GitHub Pages。
-- **建議：** 沿用 `8nnwob/oh` repository 與 GitHub Actions workflow；完成 GitHub 認證後執行 `git push origin main`，再確認新版部署。
-- **目前狀態：** 首次 Pages 部署成功，網站為 [https://8nnwob.github.io/oh/](https://8nnwob.github.io/oh/)，目前可回應 HTTP 200。Actions 顯示最近一次成功部署來自舊提交；本機有 9 個新提交尚未發布。非互動推送回報尚無可用 GitHub 認證。Computer Use 技能禁止代為操作登入視窗，因此需要使用者在 Git Credential Manager 完成登入後才能推送。
+- **事項：** 後續更新沿用現有 `8nnwob/oh` repository 與 GitHub Actions workflow。
+- **建議：** 保持目前 Pages 發布方式；每次 push 後核對 workflow 和網站。
+- **目前狀態：** Git Credential Manager 認證完成，九個更新提交已推送；Pages workflow Run 2 成功部署 `fa7e74d`。網站 [https://8nnwob.github.io/oh/](https://8nnwob.github.io/oh/) 回應 HTTP 200，線上 JS 已含本輪功能。此次修改後本機與遠端同步。
 
 ## 每日主動提醒
 
