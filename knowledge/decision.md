@@ -4,10 +4,9 @@
 
 ## GitHub 發布
 
-- **事項：** GitHub Pages 的啟用狀態與可公開存取的發布網址。
-- **建議：** 沿用目前的 `8nnwob/oh` repository，將 Pages Source 設為 GitHub Actions，再確認 workflow 部署成功。此專案只含通用示範字卡和文件，不含個人學習紀錄；學習紀錄僅存在本機瀏覽器。
-- **目前狀態：** 本機已連接 `https://github.com/8nnwob/oh.git`，具備發布 workflow；GitHub API 公開查詢遇到未驗證請求 rate limit，待推送後以 Actions 狀態及 Pages 網址再確認部署。
-- **推送認證：** 本機 `git push` 停在 Git Credential Manager 的 GitHub 認證流程，提交 `96c0313` 尚未送達遠端。建議完成 Git Credential Manager 的 GitHub 登入後重新執行 `git push origin main`；成功後 Pages workflow 會自動部署。
+- **事項：** 將後續本機更新發布到目前的 GitHub Pages。
+- **建議：** 沿用 `8nnwob/oh` repository 與 GitHub Actions workflow；完成 GitHub 認證後執行 `git push origin main`，再確認新版部署。
+- **目前狀態：** 首次 Pages 部署成功，網站為 [https://8nnwob.github.io/oh/](https://8nnwob.github.io/oh/)，目前可回應 HTTP 200。Actions 顯示最近一次成功部署來自舊提交；本機有 4 個新提交尚未發布。非互動推送回報尚無可用 GitHub 認證。Computer Use 技能禁止代為操作登入視窗，因此需要使用者在 Git Credential Manager 完成登入後才能推送。
 
 ## 每日主動提醒
 
