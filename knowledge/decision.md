@@ -4,9 +4,9 @@
 
 ## GitHub 發布
 
-- **事項：** Repository 名稱與可見度。
-- **建議：** 使用 `words-daily`，設為 Public，讓 GitHub Pages 能公開存取，也方便使用免費方案發布。專案目前只含通用示範字卡和文件，不含個人學習紀錄；學習紀錄僅存在本機瀏覽器。
-- **目前狀態：** 本機沒有 GitHub CLI，且尚未確認 GitHub 連線，因此暫時無法建立遠端 repository 或推送。完成 GitHub 連線後即可依建議建立並發布。
+- **事項：** GitHub Pages 的啟用狀態與可公開存取的發布網址。
+- **建議：** 沿用目前的 `8nnwob/oh` repository，將 Pages Source 設為 GitHub Actions，再確認 workflow 部署成功。此專案只含通用示範字卡和文件，不含個人學習紀錄；學習紀錄僅存在本機瀏覽器。
+- **目前狀態：** 本機已連接 `https://github.com/8nnwob/oh.git`，具備發布 workflow；GitHub API 公開查詢遇到未驗證請求 rate limit，待推送後以 Actions 狀態及 Pages 網址再確認部署。
 
 ## 每日主動提醒
 

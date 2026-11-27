@@ -17,8 +17,32 @@ const STORAGE_KEY = 'words-daily-v1';
 const $ = id => document.getElementById(id);
 const dateKey = (date = new Date()) => `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
 const initialState = () => ({ known: {}, again: {}, completed: [], streak: 0, lastDay: '', sessionDate: '', sessionQueue: [], sessionPosition: 0, quizMode: 'englishToChinese', dailyNewCount: 5, topic: 'all' });
+const validDate = value => {
+  if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const parsed = new Date(`${value}T00:00:00Z`);
+  return !Number.isNaN(parsed.getTime()) && parsed.toISOString().slice(0, 10) === value;
+};
+const cleanDates = value => Object.fromEntries(Object.entries(value && typeof value === 'object' && !Array.isArray(value) ? value : {}).filter(([index, date]) => Number.isInteger(Number(index)) && Number(index) >= 0 && Number(index) < WORDS.length && validDate(date)));
+function normalizeState(source) {
+  if (!source || typeof source !== 'object' || Array.isArray(source)) return initialState();
+  const cleanQueue = Array.isArray(source.sessionQueue) ? [...new Set(source.sessionQueue.filter(index => Number.isInteger(index) && index >= 0 && index < WORDS.length))] : [];
+  return {
+    ...initialState(),
+    known: cleanDates(source.known),
+    again: cleanDates(source.again),
+    completed: Array.isArray(source.completed) ? [...new Set(source.completed.filter(validDate))] : [],
+    streak: Number.isInteger(source.streak) && source.streak >= 0 ? source.streak : 0,
+    lastDay: validDate(source.lastDay) ? source.lastDay : '',
+    sessionDate: validDate(source.sessionDate) ? source.sessionDate : '',
+    sessionQueue: cleanQueue,
+    sessionPosition: Number.isInteger(source.sessionPosition) ? Math.max(0, Math.min(source.sessionPosition, cleanQueue.length)) : 0,
+    quizMode: ['englishToChinese', 'chineseToEnglish'].includes(source.quizMode) ? source.quizMode : 'englishToChinese',
+    dailyNewCount: [3, 5, 8].includes(source.dailyNewCount) ? source.dailyNewCount : 5,
+    topic: ['all', 'communication', 'thinking', 'growth'].includes(source.topic) ? source.topic : 'all'
+  };
+}
 function load() {
-  try { return { ...initialState(), ...JSON.parse(localStorage.getItem(STORAGE_KEY)) }; }
+  try { return normalizeState(JSON.parse(localStorage.getItem(STORAGE_KEY))); }
   catch { return initialState(); }
 }
 let state = load();
@@ -40,7 +64,7 @@ function startSession() {
     const again = Object.keys(state.again).filter(i => state.again[i] <= today).map(Number);
     const due = known.filter(i => state.known[i] <= today);
     const fresh = WORDS.map((word, i) => ({ word, i })).filter(entry => !known.includes(entry.i) && !again.includes(entry.i) && (state.topic === 'all' || entry.word.topic === state.topic)).map(entry => entry.i);
-    queue = [...new Set([...again, ...due, ...fresh.slice(0, Math.max(0, Number(state.dailyNewCount || 5) - again.length - due.length))])];
+    queue = [...new Set([...again, ...due, ...fresh.slice(0, state.dailyNewCount)])];
     position = 0;
     state.sessionDate = today;
     state.sessionQueue = queue;
@@ -151,23 +175,7 @@ $('import-file').onchange = async event => {
     if (backup.format !== 'words-daily-progress' || backup.version !== 1 || !backup.state || typeof backup.state !== 'object') throw new Error('格式不支援');
     if (!confirm('匯入會取代這台裝置目前的學習進度。確定繼續嗎？')) return;
     const source = backup.state;
-    const validDate = value => typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value);
-    const cleanDates = value => Object.fromEntries(Object.entries(value && typeof value === 'object' && !Array.isArray(value) ? value : {}).filter(([index, date]) => Number.isInteger(Number(index)) && Number(index) >= 0 && Number(index) < WORDS.length && validDate(date)));
-    const cleanQueue = Array.isArray(source.sessionQueue) ? [...new Set(source.sessionQueue.filter(index => Number.isInteger(index) && index >= 0 && index < WORDS.length))] : [];
-    state = {
-      ...initialState(),
-      known: cleanDates(source.known),
-      again: cleanDates(source.again),
-      completed: Array.isArray(source.completed) ? [...new Set(source.completed.filter(validDate))] : [],
-      streak: Number.isInteger(source.streak) && source.streak >= 0 ? source.streak : 0,
-      lastDay: validDate(source.lastDay) ? source.lastDay : '',
-      sessionDate: validDate(source.sessionDate) ? source.sessionDate : '',
-      sessionQueue: cleanQueue,
-      sessionPosition: Number.isInteger(source.sessionPosition) ? Math.max(0, Math.min(source.sessionPosition, cleanQueue.length)) : 0,
-      quizMode: ['englishToChinese', 'chineseToEnglish'].includes(source.quizMode) ? source.quizMode : 'englishToChinese',
-      dailyNewCount: [3, 5, 8].includes(source.dailyNewCount) ? source.dailyNewCount : 5,
-      topic: ['all', 'communication', 'thinking', 'growth'].includes(source.topic) ? source.topic : 'all'
-    };
+    state = normalizeState(source);
     save();
     startSession();
   } catch {
