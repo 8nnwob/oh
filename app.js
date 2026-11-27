@@ -38,10 +38,13 @@ const cleanDates = value => Object.fromEntries(Object.entries(value && typeof va
 function normalizeState(source) {
   if (!source || typeof source !== 'object' || Array.isArray(source)) return initialState();
   const cleanQueue = Array.isArray(source.sessionQueue) ? [...new Set(source.sessionQueue.filter(index => Number.isInteger(index) && index >= 0 && index < WORDS.length))] : [];
+  const known = cleanDates(source.known);
+  const again = cleanDates(source.again);
+  Object.keys(again).forEach(index => delete known[index]);
   return {
     ...initialState(),
-    known: cleanDates(source.known),
-    again: cleanDates(source.again),
+    known,
+    again,
     completed: Array.isArray(source.completed) ? [...new Set(source.completed.filter(validDate))] : [],
     streak: Number.isInteger(source.streak) && source.streak >= 0 ? source.streak : 0,
     lastDay: validDate(source.lastDay) ? source.lastDay : '',

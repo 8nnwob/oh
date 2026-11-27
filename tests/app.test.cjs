@@ -66,6 +66,19 @@ test('stored state drops invalid word indices and bounds the session position', 
   assert.deepEqual(state.known, { 0: '2000-01-01', 1: '2000-01-01' });
 });
 
+test('retry state takes precedence when imported progress conflicts', () => {
+  const { state } = boot({
+    known: { 0: '2000-01-01' },
+    again: { 0: '2000-01-01' },
+    sessionDate: '',
+    sessionQueue: []
+  });
+
+  assert.deepEqual(state.known, {});
+  assert.deepEqual(state.again, { 0: '2000-01-01' });
+  assert.equal(state.sessionQueue.filter(index => index === 0).length, 1);
+});
+
 test('dictionary additions are appended and CEFR labels use known levels', () => {
   const { words } = boot();
 
