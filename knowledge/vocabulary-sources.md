@@ -19,5 +19,11 @@ Cambridge Dictionary 說明其 A1–C2 標記對應 English Profile 詞彙等級
 | evaluate | C1 | [Cambridge Dictionary](https://dictionary.cambridge.org/dictionary/english/evaluate) |
 | infer | C2 | [Cambridge Dictionary](https://dictionary.cambridge.org/dictionary/english/infer) |
 | sustainable | C1 | [Cambridge Dictionary](https://dictionary.cambridge.org/dictionary/english/sustainable) |
+| negotiate | C1 | [Cambridge Dictionary](https://dictionary.cambridge.org/dictionary/english/negotiate) |
+| specify | B2 | [Cambridge Dictionary](https://dictionary.cambridge.org/dictionary/english/specify) |
+| assess | B2 | [Cambridge Dictionary](https://dictionary.cambridge.org/dictionary/english/assess) |
+| adapt | B2 | [Cambridge Dictionary](https://dictionary.cambridge.org/dictionary/english/adapt) |
+| initiative | C1 | [Cambridge Dictionary](https://dictionary.cambridge.org/dictionary/english/initiative) |
+| thrive | C1 | [Cambridge Dictionary](https://dictionary.cambridge.org/dictionary/english/thrive) |
 
 其他尚未列於本表的字目前不顯示 CEFR 標籤。字典可能會隨詞義或版本更新；若程度資訊用於正式課程，應重新核對來源。

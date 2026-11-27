@@ -62,13 +62,16 @@ test('stored state drops invalid word indices and bounds the session position', 
 test('dictionary additions are appended and CEFR labels use known levels', () => {
   const { words } = boot();
 
-  assert.equal(words.length, 18);
+  assert.equal(words.length, 24);
   assert.deepEqual(Array.from(words.slice(12), word => word.word), [
-    'persuasive', 'clarify', 'analytical', 'evaluate', 'infer', 'sustainable'
+    'persuasive', 'clarify', 'analytical', 'evaluate', 'infer', 'sustainable',
+    'negotiate', 'specify', 'assess', 'adapt', 'initiative', 'thrive'
   ]);
   assert.ok(words.every(word => word.level === undefined || ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'].includes(word.level)));
   const documentedWords = new Set(Array.from(sourceList.matchAll(/^\| ([a-z]+) \| (?:A1|A2|B1|B2|C1|C2) \|/gm), match => match[1]));
   const taggedWords = Array.from(words).filter(word => word.level).map(word => word.word);
   assert.deepEqual(taggedWords.filter(word => !documentedWords.has(word)), []);
   assert.equal(documentedWords.size, taggedWords.length);
+  const topicCounts = Array.from(words).reduce((counts, word) => ({ ...counts, [word.topic]: (counts[word.topic] || 0) + 1 }), {});
+  assert.deepEqual(topicCounts, { thinking: 8, growth: 7, communication: 9 });
 });
