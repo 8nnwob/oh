@@ -29,12 +29,12 @@ function boot(initialState) {
     Blob: class {},
     Date, Math, Number, String, Object, Array, JSON, Set, confirm: () => true, alert() {}
   };
-  vm.runInNewContext(appSource, context, { filename: 'app.js' });
-  return JSON.parse(storage.get('words-daily-v1'));
+  vm.runInNewContext(`${appSource}\nglobalThis.__WORDS = WORDS;`, context, { filename: 'app.js' });
+  return { state: JSON.parse(storage.get('words-daily-v1')), words: context.__WORDS };
 }
 
 test('daily new word quota is separate from due reviews', () => {
-  const state = boot({
+  const { state } = boot({
     known: { 0: '2000-01-01' },
     again: { 1: '2000-01-01' },
     dailyNewCount: 3,
@@ -46,7 +46,7 @@ test('daily new word quota is separate from due reviews', () => {
 });
 
 test('stored state drops invalid word indices and bounds the session position', () => {
-  const state = boot({
+  const { state } = boot({
     known: { 999: '2000-01-01', 0: '2000-01-01' },
     sessionDate: `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}`,
     sessionQueue: [0, 999, 1],
@@ -56,4 +56,14 @@ test('stored state drops invalid word indices and bounds the session position', 
   assert.deepEqual(state.sessionQueue, [0, 1]);
   assert.equal(state.sessionPosition, 2);
   assert.deepEqual(state.known, { 0: '2000-01-01' });
+});
+
+test('dictionary additions are appended and CEFR labels use known levels', () => {
+  const { words } = boot();
+
+  assert.equal(words.length, 18);
+  assert.deepEqual(Array.from(words.slice(12), word => word.word), [
+    'persuasive', 'clarify', 'analytical', 'evaluate', 'infer', 'sustainable'
+  ]);
+  assert.ok(words.every(word => word.level === undefined || ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'].includes(word.level)));
 });
