@@ -5,6 +5,7 @@ const test = require('node:test');
 const vm = require('node:vm');
 
 const appSource = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
+const sourceList = fs.readFileSync(path.join(__dirname, '..', 'knowledge', 'vocabulary-sources.md'), 'utf8');
 
 function boot(initialState) {
   const elements = new Map();
@@ -47,7 +48,7 @@ test('daily new word quota is separate from due reviews', () => {
 
 test('stored state drops invalid word indices and bounds the session position', () => {
   const { state } = boot({
-    known: { 999: '2000-01-01', 0: '2000-01-01' },
+    known: { 999: '2000-01-01', '01': '2000-01-01', 0: '2000-01-01', 2: '2025-02-31' },
     sessionDate: `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}`,
     sessionQueue: [0, 999, 1],
     sessionPosition: 99
@@ -55,7 +56,7 @@ test('stored state drops invalid word indices and bounds the session position', 
 
   assert.deepEqual(state.sessionQueue, [0, 1]);
   assert.equal(state.sessionPosition, 2);
-  assert.deepEqual(state.known, { 0: '2000-01-01' });
+  assert.deepEqual(state.known, { 0: '2000-01-01', 1: '2000-01-01' });
 });
 
 test('dictionary additions are appended and CEFR labels use known levels', () => {
@@ -66,4 +67,8 @@ test('dictionary additions are appended and CEFR labels use known levels', () =>
     'persuasive', 'clarify', 'analytical', 'evaluate', 'infer', 'sustainable'
   ]);
   assert.ok(words.every(word => word.level === undefined || ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'].includes(word.level)));
+  const documentedWords = new Set(Array.from(sourceList.matchAll(/^\| ([a-z]+) \| (?:A1|A2|B1|B2|C1|C2) \|/gm), match => match[1]));
+  const taggedWords = Array.from(words).filter(word => word.level).map(word => word.word);
+  assert.deepEqual(taggedWords.filter(word => !documentedWords.has(word)), []);
+  assert.equal(documentedWords.size, taggedWords.length);
 });

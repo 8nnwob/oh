@@ -28,7 +28,7 @@ const validDate = value => {
   const parsed = new Date(`${value}T00:00:00Z`);
   return !Number.isNaN(parsed.getTime()) && parsed.toISOString().slice(0, 10) === value;
 };
-const cleanDates = value => Object.fromEntries(Object.entries(value && typeof value === 'object' && !Array.isArray(value) ? value : {}).filter(([index, date]) => Number.isInteger(Number(index)) && Number(index) >= 0 && Number(index) < WORDS.length && validDate(date)));
+const cleanDates = value => Object.fromEntries(Object.entries(value && typeof value === 'object' && !Array.isArray(value) ? value : {}).filter(([index, date]) => Number.isInteger(Number(index)) && Number(index) >= 0 && Number(index) < WORDS.length && validDate(date)).map(([index, date]) => [String(Number(index)), date]));
 function normalizeState(source) {
   if (!source || typeof source !== 'object' || Array.isArray(source)) return initialState();
   const cleanQueue = Array.isArray(source.sessionQueue) ? [...new Set(source.sessionQueue.filter(index => Number.isInteger(index) && index >= 0 && index < WORDS.length))] : [];
