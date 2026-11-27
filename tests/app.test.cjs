@@ -7,7 +7,7 @@ const vm = require('node:vm');
 const appSource = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
 const sourceList = fs.readFileSync(path.join(__dirname, '..', 'knowledge', 'vocabulary-sources.md'), 'utf8');
 
-function boot(initialState) {
+function boot(initialState, { speech = true } = {}) {
   const elements = new Map();
   const getElement = id => {
     if (!elements.has(id)) {
@@ -33,10 +33,12 @@ function boot(initialState) {
     },
     URL: { createObjectURL: blob => { blobs.push(blob); return 'blob:backup'; }, revokeObjectURL() {} },
     Blob: class { constructor(parts, options) { this.parts = parts; this.type = options.type; } },
-    SpeechSynthesisUtterance: class { constructor(text) { this.text = text; this.lang = ''; } },
-    speechSynthesis: { cancel() { cancelCount += 1; }, speak(utterance) { utterances.push(utterance); } },
     Date, Math, Number, String, Object, Array, JSON, Set, confirm: () => true, alert: message => alerts.push(message)
   };
+  if (speech) {
+    context.SpeechSynthesisUtterance = class { constructor(text) { this.text = text; this.lang = ''; } };
+    context.speechSynthesis = { cancel() { cancelCount += 1; }, speak(utterance) { utterances.push(utterance); } };
+  }
   vm.runInNewContext(`${appSource}\nglobalThis.__WORDS = WORDS;`, context, { filename: 'app.js' });
   return { state: JSON.parse(storage.get('words-daily-v1')), words: context.__WORDS, storage, elements, alerts, blobs, downloads, utterances, getCancelCount: () => cancelCount };
 }
@@ -173,4 +175,10 @@ test('Chinese-to-English hides pronunciation until answer reveal', () => {
   assert.match(card.innerHTML, /deliberate/);
   elements.get('pronounce').onclick();
   assert.equal(utterances[0].text, 'deliberate');
+});
+
+test('word card omits pronunciation control when speech synthesis is unavailable', () => {
+  const { elements } = boot(undefined, { speech: false });
+
+  assert.doesNotMatch(elements.get('word-card').innerHTML, /id="pronounce"/);
 });
