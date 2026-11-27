@@ -22,6 +22,8 @@ function boot(initialState) {
   const alerts = [];
   const blobs = [];
   const downloads = [];
+  const utterances = [];
+  let cancelCount = 0;
   const context = {
     document: { getElementById: getElement, createElement: () => ({ click() { downloads.push({ href: this.href, download: this.download }); } }) },
     localStorage: {
@@ -31,10 +33,12 @@ function boot(initialState) {
     },
     URL: { createObjectURL: blob => { blobs.push(blob); return 'blob:backup'; }, revokeObjectURL() {} },
     Blob: class { constructor(parts, options) { this.parts = parts; this.type = options.type; } },
+    SpeechSynthesisUtterance: class { constructor(text) { this.text = text; this.lang = ''; } },
+    speechSynthesis: { cancel() { cancelCount += 1; }, speak(utterance) { utterances.push(utterance); } },
     Date, Math, Number, String, Object, Array, JSON, Set, confirm: () => true, alert: message => alerts.push(message)
   };
   vm.runInNewContext(`${appSource}\nglobalThis.__WORDS = WORDS;`, context, { filename: 'app.js' });
-  return { state: JSON.parse(storage.get('words-daily-v1')), words: context.__WORDS, storage, elements, alerts, blobs, downloads };
+  return { state: JSON.parse(storage.get('words-daily-v1')), words: context.__WORDS, storage, elements, alerts, blobs, downloads, utterances, getCancelCount: () => cancelCount };
 }
 
 test('daily new word quota is separate from due reviews', () => {
@@ -132,4 +136,28 @@ test('progress export creates a versioned JSON backup download', () => {
   assert.ok(backup.state);
   assert.match(downloads[0].download, /^words-daily-progress-\d{4}-\d{2}-\d{2}\.json$/);
   assert.equal(downloads[0].href, 'blob:backup');
+});
+
+test('English pronunciation uses speech synthesis and cancels overlapping speech', () => {
+  const { elements, utterances, getCancelCount } = boot();
+
+  assert.match(elements.get('word-card').innerHTML, /id="pronounce"/);
+  elements.get('pronounce').onclick();
+  assert.equal(utterances.length, 1);
+  assert.equal(utterances[0].text, 'deliberate');
+  assert.equal(utterances[0].lang, 'en-US');
+  assert.equal(getCancelCount(), 1);
+});
+
+test('Chinese-to-English hides pronunciation until answer reveal', () => {
+  const { elements, utterances } = boot({ quizMode: 'chineseToEnglish' });
+  const card = elements.get('word-card');
+
+  assert.doesNotMatch(card.innerHTML, /id="pronounce"/);
+  assert.doesNotMatch(card.innerHTML, /deliberate/);
+  elements.get('reveal').onclick();
+  assert.match(card.innerHTML, /id="pronounce"/);
+  assert.match(card.innerHTML, /deliberate/);
+  elements.get('pronounce').onclick();
+  assert.equal(utterances[0].text, 'deliberate');
 });

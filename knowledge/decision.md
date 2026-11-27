@@ -6,7 +6,7 @@
 
 - **事項：** 將後續本機更新發布到目前的 GitHub Pages。
 - **建議：** 沿用 `8nnwob/oh` repository 與 GitHub Actions workflow；完成 GitHub 認證後執行 `git push origin main`，再確認新版部署。
-- **目前狀態：** 首次 Pages 部署成功，網站為 [https://8nnwob.github.io/oh/](https://8nnwob.github.io/oh/)，目前可回應 HTTP 200。Actions 顯示最近一次成功部署來自舊提交；本機有 6 個新提交尚未發布。非互動推送回報尚無可用 GitHub 認證。Computer Use 技能禁止代為操作登入視窗，因此需要使用者在 Git Credential Manager 完成登入後才能推送。
+- **目前狀態：** 首次 Pages 部署成功，網站為 [https://8nnwob.github.io/oh/](https://8nnwob.github.io/oh/)，目前可回應 HTTP 200。Actions 顯示最近一次成功部署來自舊提交；本機有 7 個新提交尚未發布。非互動推送回報尚無可用 GitHub 認證。Computer Use 技能禁止代為操作登入視窗，因此需要使用者在 Git Credential Manager 完成登入後才能推送。
 
 ## 每日主動提醒
 

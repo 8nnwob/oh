@@ -138,16 +138,31 @@ function render() {
   modeSelect.onchange = () => { state.quizMode = modeSelect.value; save(); revealed = false; render(); };
   const prompt = state.quizMode === 'chineseToEnglish'
     ? `<div class="meaning prompt-meaning">${word.meaning}</div><span class="word-type">${word.type}${word.level ? ` · CEFR ${word.level}` : ''}</span>`
-    : `<div class="word">${word.word}</div><div class="ipa">${word.ipa}</div>`;
+    : `<div class="word">${word.word}</div><div class="ipa">${word.ipa}</div>${pronunciationButton(word.word)}`;
   card.innerHTML = revealed
-    ? `<div class="word-top"><div><div class="word">${word.word}</div><div class="ipa">${word.ipa}</div></div><span class="word-type">${word.type}${word.level ? ` · CEFR ${word.level}` : ''}</span></div><div class="meaning">${word.meaning}</div><div class="example">${word.example}<div class="example-zh">${word.translation}</div></div><div class="details"><div class="detail"><b>SIMILAR WORDS</b>${word.synonyms}</div><div class="detail"><b>USAGE NOTE</b>${word.usage}</div></div><span class="word-index">WORD ${String(queue[position] + 1).padStart(2, '0')}</span>`
+    ? `<div class="word-top"><div><div class="word">${word.word}</div><div class="ipa">${word.ipa}</div>${pronunciationButton(word.word)}</div><span class="word-type">${word.type}${word.level ? ` · CEFR ${word.level}` : ''}</span></div><div class="meaning">${word.meaning}</div><div class="example">${word.example}<div class="example-zh">${word.translation}</div></div><div class="details"><div class="detail"><b>SIMILAR WORDS</b>${word.synonyms}</div><div class="detail"><b>USAGE NOTE</b>${word.usage}</div></div><span class="word-index">WORD ${String(queue[position] + 1).padStart(2, '0')}</span>`
     : `<div class="prompt-area">${prompt}<div class="reveal-hint">先試著回想${state.quizMode === 'chineseToEnglish' ? '英文單字' : '中文意思'}，再翻開單字卡 ✦</div></div><span class="word-index">WORD ${String(queue[position] + 1).padStart(2, '0')}</span>`;
   actions.innerHTML = revealed
     ? '<button class="button secondary" data-result="again">再練一次 · 明天</button><button class="button" data-result="known">熟悉 · 安排複習</button>'
     : '<button class="button" id="reveal">翻開答案</button>';
   const revealButton = $('reveal');
   if (revealButton) revealButton.onclick = () => { revealed = true; render(); };
+  const pronounceButton = $('pronounce');
+  if (pronounceButton) pronounceButton.onclick = () => speakWord(word.word);
   actions.querySelectorAll('[data-result]').forEach(button => button.onclick = () => mark(button.dataset.result, queue[position]));
+}
+
+function pronunciationButton(word) {
+  if (typeof speechSynthesis === 'undefined' || typeof SpeechSynthesisUtterance === 'undefined') return '';
+  return `<button class="pronounce-button" id="pronounce" type="button" aria-label="播放 ${word} 的英文發音">🔊 聽發音</button>`;
+}
+
+function speakWord(word) {
+  if (typeof speechSynthesis === 'undefined' || typeof SpeechSynthesisUtterance === 'undefined') return;
+  speechSynthesis.cancel();
+  const utterance = new SpeechSynthesisUtterance(word);
+  utterance.lang = 'en-US';
+  speechSynthesis.speak(utterance);
 }
 
 function mark(result, index) {
